@@ -1,17 +1,19 @@
 import React from "react";
-import useFetch from "../../hooks/useFetch";
+import RecipeList from "../../components/RecipeList";
+import useFetch, { IRecipe } from "../../hooks/useFetch";
 
 import "./home.css";
 
 export default function Home() {
-  const { data, isPending, error } = useFetch("http://localhost:3000/recipes");
-  console.log(data);
+  const { recipes, isPending, error } = useFetch(
+    "http://localhost:3000/recipes"
+  );
+
   return (
     <div className="home">
-      {error && <p className="error">{error}</p>}
+      {error && <p className="error">{error.message}</p>}
       {isPending && <p className="">Loading...</p>}
-
-      {data && data.map((recipe) => <h2 key={recipe.id}>{recipe.title}</h2>)}
+      {recipes && <RecipeList recipes={recipes as IRecipe[]} />}
     </div>
   );
 }

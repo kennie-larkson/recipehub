@@ -1,16 +1,33 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-type DataType = {
-  id: string;
+export interface IRecipe {
+  id?: string;
   title: string;
   ingredients: string[];
   cookingTime: string;
-};
+  method: string;
+}
+
+export interface IError {
+  name: string;
+  message: string;
+}
 
 export default function useFetch(url: string) {
-  const [data, setData] = useState<DataType[]>([]);
+  const { id } = useParams<{ id: string }>();
+  const [recipes, setRecipes] = useState<IRecipe[]>([]);
+
+  const [recipe, setRecipe] = useState<IRecipe>({
+    id: "",
+    title: "",
+    ingredients: [],
+    cookingTime: "",
+    method: "",
+  });
+
   const [isPending, setIsPending] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<IError>({ name: "", message: "" });
 
   useEffect(() => {
     const controller = new AbortController();
@@ -27,19 +44,25 @@ export default function useFetch(url: string) {
         const data = await res.json();
 
         setIsPending(false);
-        setData(data);
-        setError("");
+        if (!id) {
+          setRecipes(data);
+        } else {
+          setRecipe(data);
+        }
+        // setRecipes(data);
+        // setRecipe(data);
+        setError({ name: "", message: "" });
       } catch (err) {
         if (err instanceof Error) {
           if (err.name === "AbortError") {
             console.log("The fetch was aborted.");
           } else {
             setIsPending(false);
-            setError("Could not fetch the data");
+            setError({ message: "Could not fetch the data", name: "" });
           }
         } else {
           setIsPending(false);
-          setError("Could not fetch the data");
+          setError({ message: "Could not fetch the data", name: "" });
         }
       }
     };
@@ -50,5 +73,5 @@ export default function useFetch(url: string) {
       controller.abort();
     };
   }, [url]);
-  return { data, isPending, error };
+  return { recipes, recipe, isPending, error };
 }
