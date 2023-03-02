@@ -12,6 +12,11 @@ export default function Create() {
 
   const ingredientInputRef = useRef<HTMLInputElement>(null);
 
+  const { postData, recipe, error } = useFetch(
+    "http://localhost:3000/recipes",
+    "POST"
+  );
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setTitle("");
@@ -19,6 +24,12 @@ export default function Create() {
     setMethod("");
     setIngredients([]);
     console.log(title, method, cookingTime, ingredients);
+    postData({
+      title,
+      method,
+      ingredients,
+      cookingTime: cookingTime + " minutes.",
+    });
   };
 
   const handleAdd = (e: React.FormEvent) => {
