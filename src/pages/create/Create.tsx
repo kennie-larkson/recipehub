@@ -1,4 +1,6 @@
 import React, { useState, useRef } from "react";
+import { useEffect } from "react";
+import { Redirect, useHistory } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 
 import "./create.css";
@@ -9,8 +11,10 @@ export default function Create() {
   const [cookingTime, setCookingTime] = useState("");
   const [newIngredient, setNewIngredient] = useState("");
   const [ingredients, setIngredients] = useState<string[]>([]);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const ingredientInputRef = useRef<HTMLInputElement>(null);
+  //const history = useHistory();
 
   const { postData, recipe, error } = useFetch(
     "http://localhost:3000/recipes",
@@ -30,6 +34,7 @@ export default function Create() {
       ingredients,
       cookingTime: cookingTime + " minutes.",
     });
+    setIsSubmitted(true);
   };
 
   const handleAdd = (e: React.FormEvent) => {
@@ -46,8 +51,15 @@ export default function Create() {
     }
   };
 
+  //   useEffect(() => {
+  //     if (recipe) {
+  //       history.push("/");
+  //     }
+  //   }, [recipe]);
+
   return (
     <div className="create">
+      {isSubmitted && <Redirect push to="/" />}
       <h2 className="page-title">Add a New Recipe</h2>
 
       <form onSubmit={handleSubmit}>

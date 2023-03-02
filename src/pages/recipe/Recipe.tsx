@@ -1,6 +1,6 @@
 import React from "react";
 import "./recipe.css";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 import useFetch, { IRecipe } from "../../hooks/useFetch";
 
@@ -14,18 +14,7 @@ export default function Recipe() {
   const { title, cookingTime, ingredients, method } = recipe as IRecipe;
 
   return (
-    <div
-      className="recipe"
-      // style={{
-      //   border: "1px solid gray",
-      //   borderRadius: "10px",
-      //   marginTop: "10px",
-      //   padding: "15px",
-      //   width: "70%",
-      //   display: "flex",
-      //   flexDirection: "column",
-      // }}
-    >
+    <div className="recipe">
       {error && <p className="error">{error.message}</p>}
       {isPending && <p className="loading">Loading...</p>}
       {recipe && (
@@ -41,6 +30,9 @@ export default function Recipe() {
           <p className="method">{method}</p>
         </>
       )}
+      <Link to="/" style={{ textDecoration: "none" }}>
+        Go back
+      </Link>
     </div>
   );
 }
