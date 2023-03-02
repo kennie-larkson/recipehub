@@ -5,6 +5,8 @@
   background: #fff;
   padding: 40px;
   box-sizing: border-box;
+  border: 3px double #58249c;
+  border-radius: 5px;
 }
 
 .recipe ul {
