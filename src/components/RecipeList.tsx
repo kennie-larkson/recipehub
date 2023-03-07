@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { IRecipe } from "../hooks/useFetch";
+
 import "./recipelist.css";
 
 type RecipeListType = {
