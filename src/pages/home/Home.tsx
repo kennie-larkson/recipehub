@@ -11,7 +11,6 @@ export default function Home() {
 
   return (
     <div className="home">
-      {/* {recipes && <Searchbar recipes={recipes as IRecipe[]} />} */}
       {error && <p className="error">{error.message}</p>}
       {isPending && <p className="">Loading...</p>}
       {recipes && <RecipeList recipes={recipes as IRecipe[]} />}
