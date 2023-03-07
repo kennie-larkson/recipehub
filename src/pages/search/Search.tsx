@@ -1,7 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import RecipeList from "../../components/RecipeList";
-//import { URLSearchParams } from "url";
 import useFetch from "../../hooks/useFetch";
 
 import "./search.css";
@@ -14,7 +13,6 @@ export default function Search() {
   const url = `http://localhost:3000/recipes?q=${query}`;
 
   const { error, recipes, isPending } = useFetch(url);
-  console.log(recipes);
 
   return (
     <div>
