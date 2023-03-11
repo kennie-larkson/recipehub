@@ -5,6 +5,20 @@ import useFetch from "../../hooks/useFetch";
 
 import "./create.css";
 
+export interface IRecipe {
+  id?: string;
+  title: string;
+  ingredients: string[];
+  cookingTime: string;
+  method: string;
+}
+
+export interface IRequest {
+  url: string;
+  fields?: IRecipe;
+  httpMethod: string;
+}
+
 export default function Create() {
   const [title, setTitle] = useState("");
   const [method, setMethod] = useState("");
@@ -13,26 +27,19 @@ export default function Create() {
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  const fields = { title, method, cookingTime, ingredients };
+
   const ingredientInputRef = useRef<HTMLInputElement>(null);
   //const history = useHistory();
 
-  const { postData, recipe, error } = useFetch(
-    "http://localhost:3000/recipes",
-    "POST"
-  );
+  const { postData, recipes } = useFetch();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setTitle("");
-    setCookingTime("");
-    setMethod("");
-    setIngredients([]);
-    console.log(title, method, cookingTime, ingredients);
     postData({
-      title,
-      method,
-      ingredients,
-      cookingTime: cookingTime + " minutes.",
+      url: "http://localhost:3000/recipes",
+      fields,
+      httpMethod: "POST",
     });
     setIsSubmitted(true);
   };
@@ -41,7 +48,7 @@ export default function Create() {
     e.preventDefault();
     const ingredient = newIngredient.trim();
 
-    if (ingredient && !ingredients.includes(ingredient)) {
+    if (ingredient && !fields.ingredients.includes(ingredient)) {
       setIngredients((prevIngredients) => [...prevIngredients, ingredient]);
     }
 
@@ -50,6 +57,13 @@ export default function Create() {
       ingredientInputRef.current.focus();
     }
   };
+
+  useEffect(() => {
+    const controller = new AbortController();
+    return () => {
+      controller.abort();
+    };
+  }, [recipes]);
 
   //   useEffect(() => {
   //     if (recipe) {
@@ -67,7 +81,7 @@ export default function Create() {
           <span> Recipe Title:</span>
           <input
             type="text"
-            name=""
+            name="title"
             id=""
             onChange={(e) => setTitle(e.target.value)}
             value={title}
@@ -85,6 +99,7 @@ export default function Create() {
               type="text"
               onChange={(e) => setNewIngredient(e.target.value)}
               value={newIngredient}
+              name="ingredient"
             />
             <button className="btn" onClick={handleAdd}>
               add
@@ -102,7 +117,8 @@ export default function Create() {
           <span> Recipe Method:</span>
           <textarea
             onChange={(e) => setMethod(e.target.value)}
-            value={method}
+            value={fields.method}
+            name="method"
             required
           />
         </label>
@@ -111,7 +127,8 @@ export default function Create() {
           <input
             type="number"
             onChange={(e) => setCookingTime(e.target.value)}
-            value={cookingTime}
+            value={fields.cookingTime}
+            name="cookingTime"
             required
           />
         </label>

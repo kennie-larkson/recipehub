@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import RecipeList from "../../components/RecipeList";
 import useFetch from "../../hooks/useFetch";
@@ -12,7 +13,10 @@ export default function Search() {
 
   const url = `http://localhost:3000/recipes?q=${query}`;
 
-  const { error, recipes, isPending } = useFetch(url);
+  const { error, recipes, isPending, postData } = useFetch();
+  useEffect(() => {
+    postData({ url });
+  }, []);
 
   return (
     <div>

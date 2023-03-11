@@ -12,7 +12,6 @@ type RecipeListType = {
 
 export default function RecipeList({ recipes }: RecipeListType) {
   const myContext = useContext(ThemeContext);
-  console.log(myContext);
 
   if (recipes.length === 0) {
     return <div className="error">No recipes match your search</div>;

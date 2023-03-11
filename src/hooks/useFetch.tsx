@@ -9,15 +9,21 @@ export interface IRecipe {
   method: string;
 }
 
+export interface IRequest {
+  url: string;
+  fields?: IRecipe;
+  httpMethod?: string;
+}
+
 export interface IError {
   name: string;
   message: string;
 }
 
-export default function useFetch(url: string, method: string = "GET") {
-  const { id } = useParams<{ id: string }>();
+export default function useFetch() {
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState<IError>({ name: "", message: "" });
   const [recipes, setRecipes] = useState<IRecipe[]>([]);
-
   const [recipe, setRecipe] = useState<IRecipe>({
     id: "",
     title: "",
@@ -26,71 +32,47 @@ export default function useFetch(url: string, method: string = "GET") {
     method: "",
   });
 
-  const [isPending, setIsPending] = useState(false);
-  const [error, setError] = useState<IError>({ name: "", message: "" });
-  const [options, setOptions] = useState({});
+  const { id } = useParams<{ id: string }>();
 
-  const postData = (postData: {}) => {
-    setOptions({
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(postData),
-    });
-  };
+  async function postData({ url, fields, httpMethod = "GET" }: IRequest) {
+    setIsPending(true);
+    setError({ name: "", message: "" });
 
-  useEffect(() => {
-    const controller = new AbortController();
+    try {
+      const response = await fetch(url, {
+        method: `${httpMethod}`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(fields),
+      });
 
-    const fetchData = async (fetchOptions: {}) => {
-      setIsPending(true);
+      const data = await response.json();
 
-      try {
-        const res = await fetch(url, {
-          ...fetchOptions,
-          signal: controller.signal,
-        });
-
-        if (!res.ok) {
-          throw Error(res.statusText);
-        }
-        const data = await res.json();
-
-        setIsPending(false);
-        if (!id) {
-          setRecipes(data);
-        } else {
-          setRecipe(data);
-        }
-
-        setError({ name: "", message: "" });
-      } catch (err) {
-        if (err instanceof Error) {
-          if (err.name === "AbortError") {
-            console.log("The fetch was aborted.");
-          } else {
-            setIsPending(false);
-            setError({ message: "Could not fetch the data", name: "" });
-          }
-        } else {
-          setIsPending(false);
-          setError({ message: "Could not fetch the data", name: "" });
-        }
+      setIsPending(false);
+      if (!id) {
+        setRecipes(data);
+      } else {
+        setRecipe(data);
       }
-    };
 
-    if (method === "GET") {
-      fetchData({});
+      setError({ name: "", message: "" });
+
+      if (!response.ok) {
+        throw new Error("Failed to post data");
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.name === "AbortError") {
+          setError({ message: "request was aborted", name: "AbortError" });
+        }
+      } else {
+        console.log(error);
+      }
+    } finally {
+      setIsPending(false);
     }
+  }
 
-    if (method === "POST" && options) {
-      fetchData(options);
-    }
-
-    return () => {
-      controller.abort();
-    };
-  }, [url, options, method]);
-  return { recipes, recipe, isPending, error, postData };
+  return { isPending, error, recipe, recipes, postData };
 }
