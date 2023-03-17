@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useEffect } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 
 import "./create.css";
@@ -73,7 +73,8 @@ export default function Create() {
 
   return (
     <div className="create">
-      {isSubmitted && <Redirect push to="/" />}
+      {/* {isSubmitted && <Redirect push to="/" />} */}
+      {isSubmitted && <Navigate to="/" />}
       <h2 className="page-title">Add a New Recipe</h2>
 
       <form onSubmit={handleSubmit}>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./recipe.css";
 import { useParams, Link } from "react-router-dom";
 
@@ -8,9 +8,12 @@ export default function Recipe() {
   const { id } = useParams<{ id: string }>();
   const url = `http://localhost:3000/recipes/${id}`;
   const { recipes, recipe, error, isPending, postData } = useFetch();
-  postData({
-    url,
-  });
+
+  useEffect(() => {
+    postData({
+      url,
+    });
+  }, [url]);
 
   const { title, cookingTime, ingredients, method } = recipe as IRecipe;
 

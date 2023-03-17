@@ -7,7 +7,7 @@ import { ThemeProvider } from "./context/ThemeContext";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <ThemeProvider children={undefined}>
+    <ThemeProvider>
       <App />
     </ThemeProvider>
   </React.StrictMode>

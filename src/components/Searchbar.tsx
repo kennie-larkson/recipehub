@@ -2,16 +2,16 @@ import React, { useState } from "react";
 
 import "./searchbar.css";
 import { IRecipe } from "../hooks/useFetch";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Searchbar() {
   const [term, setTerm] = useState("");
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    history.push(`/search?q=${term}`);
+    navigate(`/search?q=${term}`);
   };
 
   return (
