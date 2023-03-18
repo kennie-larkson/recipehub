@@ -12,12 +12,3 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     </ThemeProvider>
   </React.StrictMode>
 );
-
-// ReactDOM.render(
-//   <StrictMode>
-//     <ThemeProvider children={undefined}>
-//       <App />
-//     </ThemeProvider>
-//   </StrictMode>,
-//   document.getElementById("root")
-// );

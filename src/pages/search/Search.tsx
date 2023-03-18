@@ -16,7 +16,7 @@ export default function Search() {
   const { error, recipes, isPending, postData } = useFetch();
   useEffect(() => {
     postData({ url });
-  }, []);
+  }, [postData, url]);
 
   return (
     <div>

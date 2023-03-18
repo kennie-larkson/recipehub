@@ -7,13 +7,13 @@ import useFetch, { IRecipe } from "../../hooks/useFetch";
 export default function Recipe() {
   const { id } = useParams<{ id: string }>();
   const url = `http://localhost:3000/recipes/${id}`;
-  const { recipes, recipe, error, isPending, postData } = useFetch();
+  const { recipe, error, isPending, postData } = useFetch();
 
   useEffect(() => {
     postData({
       url,
     });
-  }, [url]);
+  }, [postData, url]);
 
   const { title, cookingTime, ingredients, method } = recipe as IRecipe;
 

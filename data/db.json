@@ -48,6 +48,16 @@
         "oil"
       ],
       "id": "A_4gZzw"
+    },
+    {
+      "title": "Amala",
+      "method": "boil water and pour yam flour until desired thickness is acheived",
+      "cookingTime": "30",
+      "ingredients": [
+        "water",
+        "yam flour"
+      ],
+      "id": "aCBCMcF"
     }
   ]
 }
