@@ -12,7 +12,7 @@ type Props = {
 };
 
 export function ThemeProvider({ children }: Props) {
-  const [color, setColor] = useState<ThemeContextType>({ color: "blue" });
+  const [color, setColor] = useState<ThemeContextType>({ color: "purple" });
 
   return (
     <ThemeContext.Provider value={color}>{children}</ThemeContext.Provider>
