@@ -11,7 +11,7 @@ type RecipeListType = {
 };
 
 export default function RecipeList({ recipes }: RecipeListType) {
-  const myContext = useContext(ThemeContext);
+  const { mode } = useContext(ThemeContext);
 
   if (recipes.length === 0) {
     return <div className="error">No recipes match your search</div>;
@@ -19,7 +19,7 @@ export default function RecipeList({ recipes }: RecipeListType) {
   return (
     <div className="recipe-list">
       {recipes.map((recipe) => (
-        <div key={recipe.id} className="card">
+        <div key={recipe.id} className={`card ${mode}`}>
           <h3>{recipe.title}</h3>
           <p>{recipe.cookingTime} to make.</p>
           <div>{recipe.method.substring(0, 100)}</div>

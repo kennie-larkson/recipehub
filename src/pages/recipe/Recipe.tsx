@@ -3,11 +3,13 @@ import "./recipe.css";
 import { useParams, Link } from "react-router-dom";
 
 import useFetch, { IRecipe } from "../../hooks/useFetch";
+import { useThemeContext } from "../../hooks/useThemeContext";
 
 export default function Recipe() {
   const { id } = useParams<{ id: string }>();
   const url = `http://localhost:3000/recipes/${id}`;
   const { recipe, error, isPending, postData } = useFetch();
+  const { mode } = useThemeContext();
 
   useEffect(() => {
     postData({
@@ -18,7 +20,7 @@ export default function Recipe() {
   const { title, cookingTime, ingredients, method } = recipe as IRecipe;
 
   return (
-    <div className="recipe">
+    <div className={`recipe ${mode}`}>
       {error && <p className="error">{error.message}</p>}
       {isPending && <p className="loading">Loading...</p>}
       {recipe && (

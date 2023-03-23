@@ -10,12 +10,22 @@ import Search from "./pages/search/Search";
 import Create from "./pages/create/Create";
 import ThemeSelector from "./components/ThemeSelector";
 
+import { useThemeContext } from "./hooks/useThemeContext";
+import "./App.css";
+
 function App() {
+  const { mode } = useThemeContext();
+  console.log(mode);
+
   return (
-    <div className="App">
+    <div
+      className={`App ${mode}`}
+      //style={{ background: mode === "dark" ? "black" : "white" }}
+    >
       <Router>
         <Navbar />
         <ThemeSelector />
+
         <Routes>
           <Route path="/" element={<Home />} />
 
