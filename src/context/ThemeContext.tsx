@@ -1,21 +1,51 @@
-import React, { createContext } from "react";
-import { useState } from "react";
+import React, { createContext, useReducer } from "react";
 
-type ThemeContextType = {
+interface ThemeContextType {
   color: string;
-};
+  changeColor: (color: string) => void;
+}
+enum ThemeActionType {
+  CHANGE_COLOR = "CHANGE_COLOR",
+}
 
-const ThemeContext = createContext<ThemeContextType>({ color: "" });
+interface ThemeAction {
+  type: ThemeActionType;
+  payload: string;
+}
+
+const ThemeContext = createContext<ThemeContextType>({
+  color: "",
+  changeColor: () => {},
+});
 
 type Props = {
   children: string | JSX.Element | JSX.Element[];
 };
 
+const themeContextReducer = (state: ThemeContextType, action: ThemeAction) => {
+  switch (action.type) {
+    case "CHANGE_COLOR":
+      return { ...state, color: action.payload };
+
+    default:
+      return state;
+  }
+};
+
 export function ThemeProvider({ children }: Props) {
-  const [color, setColor] = useState<ThemeContextType>({ color: "purple" });
+  const [state, dispatch] = useReducer(themeContextReducer, {
+    color: "purple",
+    changeColor: () => {},
+  });
+
+  const changeColor = (color: string) => {
+    dispatch({ type: ThemeActionType.CHANGE_COLOR, payload: `${color}` });
+  };
 
   return (
-    <ThemeContext.Provider value={color}>{children}</ThemeContext.Provider>
+    <ThemeContext.Provider value={{ ...state, changeColor }}>
+      {children}
+    </ThemeContext.Provider>
   );
 }
 

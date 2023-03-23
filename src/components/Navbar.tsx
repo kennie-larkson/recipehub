@@ -6,9 +6,13 @@ import Searchbar from "./Searchbar";
 import { useThemeContext } from "../hooks/useThemeContext";
 
 export default function Navbar() {
-  const { color } = useThemeContext();
+  const { color, changeColor } = useThemeContext();
   return (
-    <div className="navbar" style={{ background: color }}>
+    <div
+      className="navbar"
+      onClick={() => changeColor("pink")}
+      style={{ background: color }}
+    >
       <nav>
         <Link to="/" className="brand">
           <h1>RecipeHub</h1>

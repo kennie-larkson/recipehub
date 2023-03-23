@@ -14,21 +14,15 @@ function App() {
     <div className="App">
       <Router>
         <Navbar />
-        {/* <Switch> */}
+
         <Routes>
           <Route path="/" element={<Home />} />
-          {/* <Home />
-        </Route> */}
+
           <Route path="/create" element={<Create />} />
-          {/* <Create />
-        </Route> */}
+
           <Route path="/recipes/:id" element={<Recipe />} />
-          {/* <Recipe />
-        </Route> */}
+
           <Route path="/search" element={<Search />} />
-          {/* <Search />
-        </Route> */}
-          {/* </Switch> */}
         </Routes>
       </Router>
     </div>

@@ -13,7 +13,7 @@ export default function Recipe() {
     postData({
       url,
     });
-  }, [postData, url]);
+  }, [url]);
 
   const { title, cookingTime, ingredients, method } = recipe as IRecipe;
 

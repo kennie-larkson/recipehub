@@ -58,6 +58,18 @@
         "yam flour"
       ],
       "id": "aCBCMcF"
+    },
+    {
+      "title": "Pasta",
+      "method": "lorem ipsum",
+      "cookingTime": "30",
+      "ingredients": [
+        "spaghetti",
+        "cheese",
+        "meat balls",
+        "veggies"
+      ],
+      "id": "MMstaBf"
     }
   ]
 }
