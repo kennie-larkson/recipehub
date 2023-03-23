@@ -6,11 +6,11 @@ import Searchbar from "./Searchbar";
 import { useThemeContext } from "../hooks/useThemeContext";
 
 export default function Navbar() {
-  const { color, changeColor } = useThemeContext();
+  const { color } = useThemeContext();
   return (
     <div
       className="navbar"
-      onClick={() => changeColor("pink")}
+      // onClick={() => changeColor("pink")}
       style={{ background: color }}
     >
       <nav>

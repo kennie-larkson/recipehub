@@ -8,13 +8,14 @@ import Home from "./pages/home/Home";
 import Recipe from "./pages/recipe/Recipe";
 import Search from "./pages/search/Search";
 import Create from "./pages/create/Create";
+import ThemeSelector from "./components/ThemeSelector";
 
 function App() {
   return (
     <div className="App">
       <Router>
         <Navbar />
-
+        <ThemeSelector />
         <Routes>
           <Route path="/" element={<Home />} />
 
