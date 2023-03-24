@@ -16,14 +16,14 @@ export default function Search() {
   const { error, recipes, isPending, postData } = useFetch();
   useEffect(() => {
     postData({ url });
-  }, [postData, url]);
+  }, [url]);
 
   return (
     <div>
       <h2 className="page-title">Recipes including "{query}"</h2>
       {error && <p className="error">{error.message}</p>}
       {isPending && <p className="loading">Loading...</p>}
-      {recipes && <RecipeList recipes={recipes} />}
+      {/* {recipes && <RecipeList recipes={recipes} />} */}
     </div>
   );
 }

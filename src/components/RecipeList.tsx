@@ -2,12 +2,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { IRecipe } from "../hooks/useFetch";
 import { useContext } from "react";
+import { RecipesType } from "../pages/home/Home";
 
 import "./recipelist.css";
 import ThemeContext from "../context/ThemeContext";
 
+// type RecipeListType = {
+//   recipes: IRecipe[];
+// };
 type RecipeListType = {
-  recipes: IRecipe[];
+  recipes: RecipesType[];
 };
 
 export default function RecipeList({ recipes }: RecipeListType) {

@@ -16,7 +16,7 @@ export interface IRequest {
 }
 
 export interface IError {
-  name: string;
+  name?: string;
   message: string;
 }
 
