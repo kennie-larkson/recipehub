@@ -36,7 +36,7 @@ export default function Home() {
           let results: RecipesType[] = [];
           snapshot.forEach((doc) => {
             const dataObj = doc.data();
-            console.log(doc.id);
+            //console.log(doc.id);
 
             results.push({
               id: doc.id,

@@ -59,6 +59,15 @@ export default function useFetch() {
       setError({ name: "", message: "" });
 
       if (!response.ok) {
+        setError({ message: "Could not fetch the data", name: "AbortError" });
+        setRecipe({
+          id: "",
+          title: "",
+          ingredients: [],
+          cookingTime: "",
+          method: "",
+        });
+
         throw new Error("Failed to post data");
       }
     } catch (error) {

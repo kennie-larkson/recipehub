@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./recipe.css";
 import { useParams, Link } from "react-router-dom";
 
-import useFetch, { IRecipe } from "../../hooks/useFetch";
+import useFetch, { IRecipe, IError } from "../../hooks/useFetch";
 import { useThemeContext } from "../../hooks/useThemeContext";
+import { RecipesType } from "../home/Home";
 
 export default function Recipe() {
   const { id } = useParams<{ id: string }>();
@@ -23,7 +24,7 @@ export default function Recipe() {
     <div className={`recipe ${mode}`}>
       {error && <p className="error">{error.message}</p>}
       {isPending && <p className="loading">Loading...</p>}
-      {recipe && (
+      {recipe.title !== "" && (
         <>
           <h2 className="page-title">{title}</h2>
           <p>Takes {cookingTime} to cook.</p>
