@@ -7,7 +7,7 @@ import { projectFirestore } from "../../firebase/config";
 import "./home.css";
 
 export type RecipesType = {
-  id: string;
+  id?: string;
 
   title: string;
   method: string;
