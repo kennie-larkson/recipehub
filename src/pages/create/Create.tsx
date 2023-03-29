@@ -1,8 +1,6 @@
 import React, { useState, useRef } from "react";
-import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import useFetch from "../../hooks/useFetch";
-
+import { projectFirestore } from "../../firebase/config";
 import "./create.css";
 
 export interface IRecipe {
@@ -27,20 +25,23 @@ export default function Create() {
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const fields = { title, method, cookingTime, ingredients };
+  const fields = {
+    title,
+    method,
+    cookingTime: cookingTime + " minutes",
+    ingredients,
+  };
 
   const ingredientInputRef = useRef<HTMLInputElement>(null);
-  //const history = useHistory();
 
-  const { postData, recipes } = useFetch();
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    postData({
-      url: "http://localhost:3000/recipes",
-      fields,
-      httpMethod: "POST",
-    });
+
+    try {
+      await projectFirestore.collection("recipes").add(fields);
+    } catch (error) {
+      console.log(error);
+    }
     setIsSubmitted(true);
   };
 
@@ -58,22 +59,8 @@ export default function Create() {
     }
   };
 
-  useEffect(() => {
-    const controller = new AbortController();
-    return () => {
-      controller.abort();
-    };
-  }, [recipes]);
-
-  //   useEffect(() => {
-  //     if (recipe) {
-  //       history.push("/");
-  //     }
-  //   }, [recipe]);
-
   return (
     <div className="create">
-      {/* {isSubmitted && <Redirect push to="/" />} */}
       {isSubmitted && <Navigate to="/" />}
       <h2 className="page-title">Add a New Recipe</h2>
 
@@ -118,7 +105,7 @@ export default function Create() {
           <span> Recipe Method:</span>
           <textarea
             onChange={(e) => setMethod(e.target.value)}
-            value={fields.method}
+            value={method}
             name="method"
             required
           />
@@ -128,7 +115,7 @@ export default function Create() {
           <input
             type="number"
             onChange={(e) => setCookingTime(e.target.value)}
-            value={fields.cookingTime}
+            value={cookingTime}
             name="cookingTime"
             required
           />
