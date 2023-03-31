@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { RecipesType } from "../pages/home/Home";
 import DeleteIcon from "../ assets/delete-icon.svg";
@@ -14,11 +14,13 @@ type RecipeListType = {
 export default function RecipeList({ recipes }: RecipeListType) {
   const { mode } = useContext(ThemeContext);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const navigate = useNavigate();
 
   const deleteData = async (id: string) => {
     try {
       await projectFirestore.collection("recipes").doc(id).delete();
       setIsSubmitted(true);
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -29,7 +31,7 @@ export default function RecipeList({ recipes }: RecipeListType) {
   }
   return (
     <div className="recipe-list">
-      {isSubmitted && <Navigate to="/" />}
+      {/* {isSubmitted && <Navigate to="/" />} */}
       {recipes.map((recipe) => (
         <div key={recipe.id} className={`card ${mode}`}>
           <h3>{recipe.title}</h3>

@@ -22,10 +22,8 @@ export default function Home() {
 
   useEffect(() => {
     setIsPending(true);
-    projectFirestore
-      .collection("recipes")
-      .get()
-      .then((snapshot) => {
+    const unsub = projectFirestore.collection("recipes").onSnapshot(
+      (snapshot) => {
         if (snapshot.empty) {
           setError({
             name: "Firestore collection error",
@@ -49,16 +47,21 @@ export default function Home() {
           setRecipes(results);
           setIsPending(false);
         }
-      })
-      .catch((err) => {
-        setError({ message: `${err.message}` });
-      });
+      },
+      (err) => {
+        console.log(err.message);
+        setError({ message: err.message });
+        setIsPending(false);
+      }
+    );
+    //clean up
+    return () => unsub();
   }, []);
 
   return (
     <div className="home">
       <h1>Welcome to RecipeHub</h1>
-      <em>your one stop shop for demystifying every delicay</em>
+      <em>your one stop shop to demystifying every delicacy</em>
       {error && <p className="error">{error.message}</p>}
       {isPending && <p className="">Loading...</p>}
       {recipes && <RecipeList recipes={recipes as RecipesType[]} />}
