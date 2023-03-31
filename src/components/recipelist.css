@@ -17,10 +17,6 @@
   margin-top: 5px;
 }
 
-.recipe-list .card:hover {
-  transform: rotate(-10deg);
-}
-
 .recipe-list .card h3 {
   color: #555;
   margin-bottom: 6px;

@@ -57,6 +57,8 @@ export default function Home() {
 
   return (
     <div className="home">
+      <h1>Welcome to RecipeHub</h1>
+      <em>your one stop shop for demystifying every delicay</em>
       {error && <p className="error">{error.message}</p>}
       {isPending && <p className="">Loading...</p>}
       {recipes && <RecipeList recipes={recipes as RecipesType[]} />}

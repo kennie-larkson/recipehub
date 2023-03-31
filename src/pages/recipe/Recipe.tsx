@@ -82,7 +82,11 @@ export default function Recipe() {
           src={deleteIcon}
           alt="delete icon"
           onClick={deleteData}
-          style={{ color: "InactiveBorder", filter: "invert(60%)" }}
+          style={{
+            color: "InactiveBorder",
+            filter: "invert(60%)",
+            cursor: "pointer",
+          }}
         />
       </div>
 
