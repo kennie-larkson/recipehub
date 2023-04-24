@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { RecipesType } from "../pages/home/Home";
 import DeleteIcon from "../ assets/delete-icon.svg";
@@ -31,7 +31,6 @@ export default function RecipeList({ recipes }: RecipeListType) {
   }
   return (
     <div className="recipe-list">
-      {/* {isSubmitted && <Navigate to="/" />} */}
       {recipes.map((recipe) => (
         <div key={recipe.id} className={`card ${mode}`}>
           <h3>{recipe.title}</h3>

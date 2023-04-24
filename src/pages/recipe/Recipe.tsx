@@ -8,6 +8,7 @@ import { IError } from "../../hooks/useFetch";
 import { useThemeContext } from "../../hooks/useThemeContext";
 import { RecipesType } from "../home/Home";
 import { projectFirestore } from "../../firebase/config";
+import { log } from "console";
 
 export default function Recipe() {
   const { id } = useParams<{ id: string }>();
@@ -50,13 +51,11 @@ export default function Recipe() {
       });
   }, [id]);
 
-  const deleteData = async () => {
-    try {
-      await projectFirestore.collection("recipes").doc(id).delete();
-      setIsSubmitted(true);
-    } catch (error) {
-      console.log(error);
-    }
+  const handleClick = () => {
+    projectFirestore
+      .collection("recipes")
+      .doc(id)
+      .update({ title: "Updated this title" });
   };
 
   return (
@@ -75,20 +74,9 @@ export default function Recipe() {
               ))}
           </ul>
           <p className="method">{recipe.method}</p>
+          <button onClick={handleClick}>Update me </button>
         </>
       )}
-      <div className="delete-icon">
-        <img
-          src={deleteIcon}
-          alt="delete icon"
-          onClick={deleteData}
-          style={{
-            color: "InactiveBorder",
-            filter: "invert(60%)",
-            cursor: "pointer",
-          }}
-        />
-      </div>
 
       <Link to="/" style={{ textDecoration: "none" }}>
         Go back

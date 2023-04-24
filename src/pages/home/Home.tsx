@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import RecipeList from "../../components/RecipeList";
 import { IError } from "../../hooks/useFetch";
 import { projectFirestore } from "../../firebase/config";
+import { useThemeContext } from "../../hooks/useThemeContext";
 
 import "./home.css";
 
@@ -19,6 +20,7 @@ export default function Home() {
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState<IError>({ name: "", message: "" });
   const [recipes, setRecipes] = useState<RecipesType[]>([]);
+  const { mode } = useThemeContext();
 
   useEffect(() => {
     setIsPending(true);
@@ -60,8 +62,12 @@ export default function Home() {
 
   return (
     <div className="home">
-      <h1>Welcome to RecipeHub</h1>
-      <em>your one stop shop to demystifying every delicacy</em>
+      <h1 style={{ color: `${mode === "dark" ? "white" : "black"}` }}>
+        Welcome to RecipeHub
+      </h1>
+      <span style={{ color: `${mode === "dark" ? "white" : "black"}` }}>
+        your one stop shop to demystifying every delicacy
+      </span>
       {error && <p className="error">{error.message}</p>}
       {isPending && <p className="">Loading...</p>}
       {recipes && <RecipeList recipes={recipes as RecipesType[]} />}
