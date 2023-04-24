@@ -27,11 +27,10 @@ export default function Recipe() {
   useEffect(() => {
     setIsPending(true);
 
-    projectFirestore
+    const unsub = projectFirestore
       .collection("recipes")
       .doc(id)
-      .get()
-      .then((doc) => {
+      .onSnapshot((doc) => {
         if (!doc.exists) {
           setError({
             name: "Firestore collection error",
@@ -49,13 +48,15 @@ export default function Recipe() {
           });
         }
       });
+
+    return () => unsub();
   }, [id]);
 
   const handleClick = () => {
     projectFirestore
       .collection("recipes")
       .doc(id)
-      .update({ title: "Updated this title" });
+      .update({ title: "Another Title update" });
   };
 
   return (
